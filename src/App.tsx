@@ -3,6 +3,7 @@ import './App.css';
 import {TaskType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 // eslint-disable-next-line
+
 export type FilterValueType = 'all' | 'active' | 'completed'
 
 function App() {
@@ -43,6 +44,10 @@ function App() {
         setFilter(filter)
     }
 
+    const changeTaskStatus = (taskID: string, isDone: boolean) => {
+        setTasks(tasks  .map(t => t.id === taskID ? {...t, isDone } : t))
+    }
+
     return (
         <div className="App">
             <
@@ -52,6 +57,8 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
+                filter={filter}
             />
 
 
