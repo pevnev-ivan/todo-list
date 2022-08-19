@@ -7,17 +7,18 @@
   margin-right: 50px;
 }
 
-.isDone {
-  opacity: 50%;
-  text-decoration: line-through;
+.error {
+  border: red 1px solid;
 }
 
-.currentFilter {
-  background-color: lightgray;
-  border: 1px solid black;
+.error-message {
+  color: red;
 }
 
-.inputError {
-  background-color: lightpink;
-  border-color: lightpink;
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
 }
