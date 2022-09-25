@@ -3,6 +3,8 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import AddItemForm from "./components/AddItemForm";
+import ButtonAppBar from "./components/AppBar";
+import {Container, Grid, Paper} from "@mui/material";
 
 type TodoListsType = {
     id: string
@@ -69,8 +71,12 @@ function App() {
     }
 
     function updateTask(todoListID: string, taskId: string, newTitle: string) {
-        setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === taskId ? {...el, title: newTitle} : el)})
+        setTasks({
+            ...tasks,
+            [todoListID]: tasks[todoListID].map(el => el.id === taskId ? {...el, title: newTitle} : el)
+        })
     }
+
     function updateTodoList(todoListID: string, newTitle: string) {
         setTodolists(todolists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
 
@@ -80,37 +86,48 @@ function App() {
     }
 
 
-    return (
-        <div className="App">
-            <AddItemForm callback={addTodoList}/>
-            {todolists.map((el) => {
+    return (<div className="App">
+            <ButtonAppBar/>
+            <Container fixed style={{padding: '20px'}}>
+                <Grid container style={{padding: '20px'}}>
+                    <AddItemForm callback={addTodoList}/>
+                </Grid>
 
-                    let tasksForTodolist = tasks[el.id];
-                    if (el.filter === "active") {
-                        tasksForTodolist = tasks[el.id].filter(t => !t.isDone);
-                    }
-                    if (el.filter === "completed") {
-                        tasksForTodolist = tasks[el.id].filter(t => t.isDone);
-                    }
+                <Grid container spacing={3}>
+                    {todolists.map((el) => {
 
-                    return (
-                        <Todolist
-                            key={el.id}
-                            todoListID={el.id}
-                            title="What to learn"
-                            tasks={tasksForTodolist}
-                            removeTask={removeTask}
-                            changeFilter={changeFilter}
-                            addTask={addTask}
-                            changeTaskStatus={changeStatus}
-                            filter={el.filter}
-                            removeTodoListHandler={removeTodoListHandler}
-                            updateTask={updateTask}
-                            updateTodoList={updateTodoList}
-                        />
-                    )
-                }
-            )}
+                            let tasksForTodolist = tasks[el.id];
+                            if (el.filter === "active") {
+                                tasksForTodolist = tasks[el.id].filter(t => !t.isDone);
+                            }
+                            if (el.filter === "completed") {
+                                tasksForTodolist = tasks[el.id].filter(t => t.isDone);
+                            }
+
+                            return (<Grid item>
+                                    <Paper style={{padding: '13px'}} elevation={3}>
+                                        <Todolist
+                                            key={el.id}
+                                            todoListID={el.id}
+                                            title="What to learn"
+                                            tasks={tasksForTodolist}
+                                            removeTask={removeTask}
+                                            changeFilter={changeFilter}
+                                            addTask={addTask}
+                                            changeTaskStatus={changeStatus}
+                                            filter={el.filter}
+                                            removeTodoListHandler={removeTodoListHandler}
+                                            updateTask={updateTask}
+                                            updateTodoList={updateTodoList}
+                                        />
+                                    </Paper>
+                                </Grid>
+
+                            )
+                        }
+                    )}
+                </Grid>
+            </Container>
 
 
         </div>
