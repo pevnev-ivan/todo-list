@@ -5,7 +5,11 @@ import EditableSpan from "./components/EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
-type TaskType = {
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
+
+export type TaskType = {
     id: string
     title: string
     isDone: boolean

@@ -22,7 +22,7 @@ test ('TodoList should be deleted',() => {
     const endState = todoListsReducer(startState, removeTodoListAC(todolistID1))
 
     expect(endState.length).toBe(1)
-    expect(endState[0]).toBe(undefined)
+    expect(endState[0].id).toBe(todolistID2)
 
 })
 
