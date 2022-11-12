@@ -1,6 +1,6 @@
 import {TasksStateType} from "../Todolist";
 import {v1} from "uuid";
-import {addTodoListAC, removeTodoListAC} from "./todoList-reducer";
+import {addTodoListAC, removeTodoListAC} from "./toDoListReducer";
 
 export type removeTaskAC =  ReturnType<typeof removeTaskAC>
 export type addTaskAC =  ReturnType<typeof addTaskAC>
@@ -13,11 +13,12 @@ export const taskReducer = (state: TasksStateType, action: everyActionCreator) =
         case 'REMOVE-TASK':
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(el => el.id !== action.payload.taskId)}
         case 'ADD-TASK':
-            return {...state, [action.payload.todolistId]: [{id: v1(), title: action.payload.title, isDone: false}]}
+            return {...state, [action.payload.todolistId]: [...state[action.payload.todolistId], {id: v1(), title: action.payload.title, isDone: false}]}
         case 'CHANGE-TASK-STATUS':
             return {...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {...el, isDone: action.payload.isDone} : el)}
         case 'CHANGE-TASK-TITLE':
+            console.log(action.payload)
             return {...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {...el, title: action.payload.title} : el)}
         case 'ADD-TODOLIST':
@@ -27,8 +28,6 @@ export const taskReducer = (state: TasksStateType, action: everyActionCreator) =
             delete copyState[action.payload.id]
             return {...copyState}
     }
-
-
     return state
 }
 
@@ -39,7 +38,7 @@ type everyActionCreator =
 
 
 
-export const removeTaskAC  = (taskId: string, todolistId: string) => {
+export const removeTaskAC  = (todolistId: string, taskId: string) => {
     return {
         type: 'REMOVE-TASK',
         payload: {
@@ -74,9 +73,9 @@ export const changeTaskTitleAC  = (todolistId: string, taskId: string, title: st
     return {
         type: 'CHANGE-TASK-TITLE',
         payload: {
-            todolistId,
-            taskId,
-            title
+            todolistId: todolistId,
+            taskId: taskId,
+            title: title
         }
     } as const
 }

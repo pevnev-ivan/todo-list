@@ -1,9 +1,10 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValuesType} from './App';
+
 import AddItemForm from "./components/AddItemForm";
 import EditableSpan from "./components/EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {FilterValuesType} from "./AppWithReducers";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -23,7 +24,7 @@ export type PropsType = {
     changeFilter: (todoListID: string, value: FilterValuesType) => void
     addTask: (todoListID: string, title: string) => void
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
-    filter: FilterValuesType
+    filter: string
     removeTodoListHandler: any
     updateTask: (todoListID: string, taskId: string, newTitle: string) => void
     updateTodoList: (todoListID: string, newTitle: string) => void
@@ -47,7 +48,7 @@ export function Todolist(props: PropsType) {
         props.updateTodoList(props.todoListID, newTitle)
     }
 
-    const updateTaskHandler = (newTitle: string, taskID: string) => {
+    const updateTaskHandler = (taskID: string, newTitle: string, ) => {
         props.updateTask(props.todoListID, taskID, newTitle)
     }
 
