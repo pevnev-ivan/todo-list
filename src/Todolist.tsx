@@ -4,7 +4,7 @@ import AddItemForm from "./components/AddItemForm";
 import EditableSpan from "./components/EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {FilterValuesType} from "./AppWithReducers";
+import {FilterValuesType} from "./AppWithRedux";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -29,10 +29,6 @@ export type PropsType = {
     updateTask: (todoListID: string, taskId: string, newTitle: string) => void
     updateTodoList: (todoListID: string, newTitle: string) => void
 }
-
-// function DeleteIcon(props: { onClick: () => any, fontSize: string }) {
-//     return null;
-// }
 
 export function Todolist(props: PropsType) {
 

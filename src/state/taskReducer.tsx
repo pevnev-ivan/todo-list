@@ -2,13 +2,15 @@ import {TasksStateType} from "../Todolist";
 import {v1} from "uuid";
 import {addTodoListAC, removeTodoListAC} from "./toDoListReducer";
 
+
 export type removeTaskAC =  ReturnType<typeof removeTaskAC>
 export type addTaskAC =  ReturnType<typeof addTaskAC>
 export type changeTaskStatusAC = ReturnType<typeof changeTaskStatusAC>
 export type changeTaskTitleAC = ReturnType<typeof changeTaskTitleAC>
 
+const initialState: TasksStateType = {}
 
-export const taskReducer = (state: TasksStateType, action: everyActionCreator) => {
+export const taskReducer = (state: TasksStateType = initialState, action: everyActionCreator) => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(el => el.id !== action.payload.taskId)}
@@ -18,7 +20,6 @@ export const taskReducer = (state: TasksStateType, action: everyActionCreator) =
             return {...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {...el, isDone: action.payload.isDone} : el)}
         case 'CHANGE-TASK-TITLE':
-            console.log(action.payload)
             return {...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {...el, title: action.payload.title} : el)}
         case 'ADD-TODOLIST':
@@ -27,8 +28,8 @@ export const taskReducer = (state: TasksStateType, action: everyActionCreator) =
             let copyState = {...state}
             delete copyState[action.payload.id]
             return {...copyState}
+        default: return state
     }
-    return state
 }
 
 type everyActionCreator =
