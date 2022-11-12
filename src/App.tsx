@@ -21,7 +21,7 @@ function App() {
     let todolistID1 = v1();
     let todolistID2 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodoListsType>>([
+    let [toDoLists, setToDoLists] = useState<Array<TodoListsType>>([
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
@@ -46,7 +46,7 @@ function App() {
     function addTodoList(newTitle: string) {
         const newTodoListId = v1()
         const newTodoList: TodoListsType = {id: newTodoListId, title: newTitle, filter: 'all'}
-        setTodolists([newTodoList, ...todolists])
+        setToDoLists([newTodoList, ...toDoLists])
         setTasks({...tasks, [newTodoListId]: []})
     }
 
@@ -56,7 +56,8 @@ function App() {
 
     function addTask(todoListID: string, title: string) {
         let newTask = {id: v1(), title: title, isDone: false};
-        setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
+        setTasks({...tasks, [todoListID]: [...tasks[todoListID], newTask]})
+        console.log(tasks)
     }
 
     function changeStatus(todoListID: string, taskId: string, isDone: boolean) {
@@ -64,11 +65,11 @@ function App() {
     }
 
     function changeFilter(todoListID: string, value: FilterValuesType) {
-        setTodolists(todolists.map(el => el.id === todoListID ? {...el, filter: value} : el));
+        setToDoLists(toDoLists.map(el => el.id === todoListID ? {...el, filter: value} : el));
     }
 
     function removeTodoListHandler(todoListID: string) {
-        setTodolists(todolists.filter(el => el.id !== todoListID))
+        setToDoLists(toDoLists.filter(el => el.id !== todoListID))
         delete tasks[todoListID]
     }
 
@@ -80,9 +81,9 @@ function App() {
     }
 
     function updateTodoList(todoListID: string, newTitle: string) {
-        setTodolists(todolists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
+        setToDoLists(toDoLists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
 
-        console.log(todolists)
+        console.log(toDoLists)
         console.log(newTitle)
         console.log(todoListID)
     }
@@ -96,7 +97,7 @@ function App() {
                 </Grid>
 
                 <Grid container spacing={3}>
-                    {todolists.map((el) => {
+                    {toDoLists.map((el) => {
 
                             let tasksForTodolist = tasks[el.id];
                             if (el.filter === "active") {
@@ -106,12 +107,12 @@ function App() {
                                 tasksForTodolist = tasks[el.id].filter(t => t.isDone);
                             }
 
-                            return (<Grid item>
+                            return (<Grid key={el.id} item>
                                     <Paper style={{padding: '13px'}} elevation={3}>
                                         <Todolist
                                             key={el.id}
                                             todoListID={el.id}
-                                            title="What to learn"
+                                            title={el.title}
                                             tasks={tasksForTodolist}
                                             removeTask={removeTask}
                                             changeFilter={changeFilter}

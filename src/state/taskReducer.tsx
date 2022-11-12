@@ -13,7 +13,7 @@ export const taskReducer = (state: TasksStateType, action: everyActionCreator) =
         case 'REMOVE-TASK':
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(el => el.id !== action.payload.taskId)}
         case 'ADD-TASK':
-            return {...state, [action.payload.todolistId]: [{id: v1(), title: action.payload.title, isDone: false}, ...state[action.payload.todolistId]]}
+            return {...state, [action.payload.todolistId]: [{id: v1(), title: action.payload.title, isDone: false}]}
         case 'CHANGE-TASK-STATUS':
             return {...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {...el, isDone: action.payload.isDone} : el)}

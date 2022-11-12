@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import AddItemForm from "./components/AddItemForm";
 import EditableSpan from "./components/EditableSpan";
@@ -29,9 +29,9 @@ export type PropsType = {
     updateTodoList: (todoListID: string, newTitle: string) => void
 }
 
-function DeleteIcon(props: { onClick: () => any, fontSize: string }) {
-    return null;
-}
+// function DeleteIcon(props: { onClick: () => any, fontSize: string }) {
+//     return null;
+// }
 
 export function Todolist(props: PropsType) {
 
@@ -40,7 +40,7 @@ export function Todolist(props: PropsType) {
     const onActiveClickHandler = () => props.changeFilter(props.todoListID, "active");
     const onCompletedClickHandler = () => props.changeFilter(props.todoListID, "completed");
     const addTaskHandler = (newTitle: string) => {
-        props.addTask(newTitle, props.todoListID)
+        props.addTask(props.todoListID, newTitle)
     }
 
     const updateTodoListHandler = (newTitle: string) => {
@@ -69,7 +69,6 @@ export function Todolist(props: PropsType) {
                     }
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
                         <Checkbox
-                            defaultChecked
                             onChange={onChangeHandler}
                             checked={t.isDone}/>
                         <EditableSpan callback={(newTitle) => updateTaskHandler(t.id, newTitle)} title={t.title}/>
